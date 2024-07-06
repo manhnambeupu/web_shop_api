@@ -24,7 +24,7 @@ public class SanPham{
     private Integer trangThai;
 
     @ManyToOne // vd 1 loaij san pham thi se co nhieu san pham, chi nen dung @ManyToOne vi no de quan ly
-    @JoinColumn(name = "loai_san_pham_id") // ten cot khoa ngoai
+    @JoinColumn(name = "loai_san_pham") // mapping voi cot loai_san_pham_id
     private LoaiSanPham loaiSanPham;
                                                 // khi dung EAGER thi no se tu dong load
     @ElementCollection(fetch = FetchType.EAGER) // EAGER: dung trong truowng hop bang phu khong co khoa chinh nhu bang anh san pham
