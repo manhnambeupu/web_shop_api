@@ -36,11 +36,20 @@ public class LoaiSanPhamServiceIplm implements LoaiSanPhamService {
     }
 
     public void delete(Long id) {
+
+        LoaiSanPham loaiSanPham = loaiSanPhamRepository.findById(id).orElse(null);
+        if (loaiSanPham == null) {
+            throw new RuntimeException("Not Found loai san pham id" + id);
+        }
         loaiSanPhamRepository.deleteById(id);
     }
 
     public LoaiSanPhamDTO getById(Long id) {
         LoaiSanPham loaiSanPham = loaiSanPhamRepository.findById(id).orElse(null);
+        if(loaiSanPham == null){
+            throw new RuntimeException( "Not Found loai san pham id" + id);
+        }
+
         return new LoaiSanPhamDTO(loaiSanPham.getId(), loaiSanPham.getTen());
     }
 

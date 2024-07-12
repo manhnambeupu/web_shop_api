@@ -1,11 +1,10 @@
 package web_shop.api_web_shop.controller;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import web_shop.api_web_shop.dto.LoaiSanPhamDTO;
+import web_shop.api_web_shop.dto.ResponseDTO;
 import web_shop.api_web_shop.service.LoaiSanPhamService;
 
 import java.util.List;
@@ -18,18 +17,37 @@ public class LoaiSanPhamController {
 
     // Rest API get(che giau duong link tang tinh bao mat), post, put, delete
     @GetMapping // lay du lieu
-    public List<LoaiSanPhamDTO> getAll(){
-        return loaiSanPhamService.getAll();
+    public ResponseDTO< List<LoaiSanPhamDTO> > getAll(){
+        return ResponseDTO. < List<LoaiSanPhamDTO> >builder() //  dung builder de tao mot doi tuong ResponseDTO co kieu
+                                                            //  la mot List<LoaiSanPhamDTO>
+                .data(loaiSanPhamService.getAll())
+                .status(200)
+                .message("Success")
+                .build();
+
+        /*cach2, khong dung builder
+        ResponseDTO< List<LoaiSanPhamDTO> > responseDTO = new ResponseDTO<>();
+        responseDTO.setData(loaiSanPhamService.getAll());
+        responseDTO.setStatus(200);
+        responseDTO.setMessage("Success");
+        return responseDTO;
+         */
     }
 
     @PostMapping // tao ra 1 ban ghi loai san pham
-    public void create(LoaiSanPhamDTO loaiSanPhamDTO){
+    // RequestBody: lay du lieu cua nguoi dung gui
+    // @Valid: kiem tra xem du lieu co dung dinh dang hay khong
+    public void create(@RequestBody @Valid LoaiSanPhamDTO loaiSanPhamDTO){
         loaiSanPhamService.create(loaiSanPhamDTO);
     }
 
     @GetMapping("/id") // lay ban ghi loai san pham theo id
-    public LoaiSanPhamDTO getById(Long id){
-        return loaiSanPhamService.getById(id);
+    public ResponseDTO <LoaiSanPhamDTO> getById(Long id){
+        return ResponseDTO. <LoaiSanPhamDTO>builder()
+                .data(loaiSanPhamService.getById(id))
+                .status(200)
+                .message("Success")
+                .build();
     }
 
     @PostMapping("/id") // cap nhat ban ghi loai san pham

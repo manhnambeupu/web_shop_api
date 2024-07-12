@@ -45,6 +45,12 @@ public class MauSacServiceIplm implements MauSacService {
 
     @Override
     public void delete(Long id) {
+        /*MauSac mauSac = mauSacRepository.findById(id).orElse(null);
+        if(mauSac == null){
+            throw new RuntimeException( "Not Found id" + id);
+        }*/
+
+        mauSacRepository.findById(id).orElseThrow(()-> new RuntimeException("Not found mauSac id" + id) );
         // delete := delete from MauSac where id = id
         mauSacRepository.deleteById(id);
     }
@@ -52,6 +58,9 @@ public class MauSacServiceIplm implements MauSacService {
     @Override
     public MauSacDTO getById(Long id) {
         MauSac mauSac = mauSacRepository.findById(id).orElse(null);
+        if(mauSac == null){
+            throw new RuntimeException( "Not Found id" + id);
+        }
         return new MauSacDTO(mauSac.getId(), mauSac.getTen());
     }
 

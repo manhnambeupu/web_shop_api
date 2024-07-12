@@ -39,12 +39,22 @@ public class KichCoServiceIplm implements KichCoService {
     }
 
     public void delete(Long id) {
+        KichCo kichCo = kichCoRepository.findById(id).orElse(null);
+        if(kichCo == null){
+            throw new RuntimeException( "Not Found id" + id);
+        }
+
         // delete := delete from KichCo where id = id
         kichCoRepository.deleteById(id);
     }
 
     public KichCoDTO getById(Long id) {
         KichCo kichCo = kichCoRepository.findById(id).orElse(null);
+
+        if (kichCo == null) {
+            throw new RuntimeException("Not Found id" + id);
+        }
+
         return new KichCoDTO(kichCo.getId(), kichCo.getTen());
     }
 

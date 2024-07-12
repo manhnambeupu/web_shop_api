@@ -1,8 +1,10 @@
 package web_shop.api_web_shop.controller;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import web_shop.api_web_shop.dto.KichCoDTO;
+import web_shop.api_web_shop.dto.ResponseDTO;
 import web_shop.api_web_shop.service.KichCoService;
 
 import java.util.List;
@@ -16,13 +18,26 @@ public class KichCoController {
 
         // Rest API get(che giau duong link tang tinh bao mat), post, put, delete
         @GetMapping // lay du lieu
-        public List<KichCoDTO> getAll(){
-            return kichCoService.getAll();
+        public ResponseDTO < List<KichCoDTO> > getAll(){
+            return ResponseDTO. < List<KichCoDTO> >builder() //  dung bbuilder de tao mot doi tuong ResponseDTO co kieu
+                                                            //  la mot List<KichCoDTO>
+                    .data(kichCoService.getAll())
+                    .status(200)
+                    .message("Success")
+                    .build();
+
+            /*cach2, khong dung builder
+            ResponseDTO< List<KichCoDTO> > responseDTO = new ResponseDTO<>();
+            responseDTO.setData(kichCoService.getAll());
+            responseDTO.setStatus(200);
+            responseDTO.setMessage("Success");
+             */
         }
 
         @PostMapping // tao ra 1 ban ghi kich co
         // RequestBody: lay du lieu cua nguoi dung gui
-        public void create(@RequestBody KichCoDTO kichCoDTO){
+        // @Valid: kiem tra xem du lieu co dung dinh dang hay khong
+        public void create(@RequestBody  @Valid KichCoDTO kichCoDTO){
             kichCoService.create(kichCoDTO);
         }
 
@@ -33,8 +48,12 @@ public class KichCoController {
             kichCoService.update(dto, id);
         }
         @GetMapping("/id") // lay ban ghi kich co theo id
-        public KichCoDTO getById(Long id){
-            return kichCoService.getById(id);
+        public ResponseDTO<KichCoDTO> getById(Long id){
+            return ResponseDTO. <KichCoDTO>builder()
+                    .data(kichCoService.getById(id))
+                    .status(200)
+                    .message("Success")
+                    .build();
         }
 
         @DeleteMapping // xoa ban ghi kich co
