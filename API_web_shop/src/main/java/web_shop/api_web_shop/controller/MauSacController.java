@@ -51,7 +51,7 @@ public class MauSacController {
                 .build();
     }
 
-    @PutMapping("/id") // cap nhat ban ghi mau sac
+    @PutMapping("/{id}") // cap nhat ban ghi mau sac
     //PathVariable: lay du lieu id tu duong link de update tren DB
     public ResponseDTO <Void> update(@PathVariable Long id, @RequestBody @Valid MauSacDTO dto){
         // DB: update mau sac = "" where id = "" (phai dinh kem them id)
@@ -61,7 +61,7 @@ public class MauSacController {
                 .message("Success update mau sac")
                 .build();
     }
-    @GetMapping("/id") // lay ban ghi mau sac theo id
+    @GetMapping("/{id}") // lay ban ghi mau sac theo id
     public ResponseDTO <MauSacDTO> getById(@PathVariable Long id){
         return ResponseDTO. <MauSacDTO>builder()
                 .data(mauSacService.getById(id))
@@ -77,7 +77,7 @@ public class MauSacController {
          */
     }
 
-    @DeleteMapping // xoa ban ghi mau sac
+    @DeleteMapping("/{id}") // xoa ban ghi mau sac
     public ResponseDTO <Void> delete(@PathVariable Long id){
         mauSacService.delete(id);
         return ResponseDTO. <Void>builder()

@@ -41,8 +41,8 @@ public class LoaiSanPhamController {
         loaiSanPhamService.create(loaiSanPhamDTO);
     }
 
-    @GetMapping("/id") // lay ban ghi loai san pham theo id
-    public ResponseDTO <LoaiSanPhamDTO> getById(Long id){
+    @GetMapping("/{id}") // lay ban ghi loai san pham theo id
+    public ResponseDTO <LoaiSanPhamDTO> getById(@PathVariable Long id){
         return ResponseDTO. <LoaiSanPhamDTO>builder()
                 .data(loaiSanPhamService.getById(id))
                 .status(200)
@@ -50,13 +50,13 @@ public class LoaiSanPhamController {
                 .build();
     }
 
-    @PostMapping("/id") // cap nhat ban ghi loai san pham
-    public void update(LoaiSanPhamDTO loaiSanPhamDTO, Long id){
+    @PostMapping("/{id}") // cap nhat ban ghi loai san pham
+    public void update(@RequestBody @Valid LoaiSanPhamDTO loaiSanPhamDTO, @PathVariable Long id){
         loaiSanPhamService.update(loaiSanPhamDTO, id);
     }
 
-    @PostMapping("/delete") // xoa ban ghi loai san pham
-    public void delete(Long id){
+    @PostMapping("/{id}") // xoa ban ghi loai san pham
+    public void delete(@PathVariable Long id){
         loaiSanPhamService.delete(id);
     }
 

@@ -41,13 +41,13 @@ public class KichCoController {
             kichCoService.create(kichCoDTO);
         }
 
-        @PutMapping("/id") // cap nhat ban ghi kich co
+        @PutMapping("/{id}") // cap nhat ban ghi kich co
         //PathVariable: lay du lieu id tu duong link de update tren DB
         public void update(@PathVariable Long id, @RequestBody KichCoDTO dto){
             // DB: update kich co = "" where id = "" (phai dinh kem them id)
             kichCoService.update(dto, id);
         }
-        @GetMapping("/id") // lay ban ghi kich co theo id
+        @GetMapping("/{id}") // lay ban ghi kich co theo id
         public ResponseDTO<KichCoDTO> getById(Long id){
             return ResponseDTO. <KichCoDTO>builder()
                     .data(kichCoService.getById(id))
@@ -56,8 +56,8 @@ public class KichCoController {
                     .build();
         }
 
-        @DeleteMapping // xoa ban ghi kich co
-        public void delete(Long id){
+        @DeleteMapping("/{id}") // xoa ban ghi kich co
+        public void delete(@PathVariable Long id){
             kichCoService.delete(id);
         }
 }

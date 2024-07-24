@@ -19,6 +19,7 @@ public class SanPham{
     private String ten;
     private Double gia;
     private Long soLuongTonKho;
+
     private Long soLuongDaBan;
     private String moTa;
     private Integer trangThai;
