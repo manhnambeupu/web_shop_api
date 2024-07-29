@@ -15,7 +15,7 @@ public class GioHangChiTiet {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private Long soLuong;
-    private Long thanhTien;
+    private Double thanhTien;
 
     @ManyToOne
     @JoinColumn(name = "san_pham_chi_tiet_id")

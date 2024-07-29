@@ -1,6 +1,7 @@
 package web_shop.api_web_shop.service.Implement;
 
 import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
@@ -38,22 +39,19 @@ public class SanPhamServiceIplm implements SanPhamService {
         size = size == null ? 5 : size; // so phan tu tren mot trang
         Page<SanPham> pageEnity = sanPhamRepository.getAll( ten, ma, idLoaiSanPham, PageRequest.of( page, size) ) ;
 
-        List<SanPhamDTO> listDTO = mapToDto( pageEnity.getContent() );
-
-        return listDTO;
+        return mapToDto( pageEnity.getContent() );
     }
 
-        @Override
-        public SanPhamDTO getById (Long id){
-            return null;
-        }
+    @Override
+    public SanPhamDTO getById (Long id){
+        SanPham sanPham = sanPhamRepository.findById(id).orElseThrow( ()->new RuntimeException("khong tim thay san pham"+id) );
+        return new ModelMapper().map(sanPham, SanPhamDTO.class);
+    }
 
-        @Override
-        public void create (SanPhamDTO dto) throws IOException {
-            // Tao mot list chua ten file anh
-            List<String> images = new ArrayList<>();
-
-
+    @Override
+    public void create (SanPhamDTO dto) throws IOException {
+        // Tao mot list chua ten file anh
+        List<String> images = new ArrayList<>();
             // LUU File ANH VAO DATA BASE
             // Kiem tra xem file co ton tai hay khong, neu co thi lay ten file va luu vao List <String> images
             // neu khong thi throw exception

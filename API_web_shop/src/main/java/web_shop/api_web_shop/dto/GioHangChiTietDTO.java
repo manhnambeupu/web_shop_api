@@ -10,9 +10,10 @@ import lombok.NoArgsConstructor;
 public class GioHangChiTietDTO {
     private Long id;
     private Long soLuong;
-    private Long thanhTien;
+    private Double thanhTien;
 
     private SanPhamChiTietDTO sanPhamChiTiet;
 
-    private GioHangDTO gioHang;
+    private Long gioHangId;
+    //private GioHangDTO gioHang;
 }

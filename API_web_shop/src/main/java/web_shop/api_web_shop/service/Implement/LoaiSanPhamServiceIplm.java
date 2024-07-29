@@ -18,8 +18,7 @@ public class LoaiSanPhamServiceIplm implements LoaiSanPhamService {
 
     public List<LoaiSanPhamDTO> getAll() {
         List<LoaiSanPham> listEntity = loaiSanPhamRepository.findAll();
-        List<LoaiSanPhamDTO> listDto = mapToDto(listEntity);
-        return listDto;
+        return mapToDto(listEntity);
     }
 
     public void create(LoaiSanPhamDTO loaiSanPhamDTO) {

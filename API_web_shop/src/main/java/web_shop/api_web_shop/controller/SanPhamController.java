@@ -69,6 +69,9 @@ public class SanPhamController {
     }
 
     @PutMapping("/{id}")// cap nhat ban ghi san pham
+    // Frontend gui du lieu o dang form-Data
+    // chinh vi vay ta can dung @ModelAttribute de lay du lieu tu form-data
+    // con dung @RequestBody thi se khong lay duoc du lieu tu form-data
     public ResponseDTO <Void> update(@PathVariable Long id, @ModelAttribute @Valid SanPhamDTO dto) throws IOException {
         sanPhamService.update(dto, id);
         return ResponseDTO. <Void> builder()

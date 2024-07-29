@@ -16,7 +16,7 @@ public class GioHang {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private Long tongSanPham;
-    private Long tongSoTien; // tong so tien cua tat ca cac gio hang chi tiet trong gio hang
+    private Double tongSoTien; // tong so tien cua tat ca cac gio hang chi tiet trong gio hang
 
     @OneToOne
     @JoinColumn(name = "tai_khoan_id")
@@ -25,5 +25,9 @@ public class GioHang {
     @OneToMany(mappedBy = "gioHang")
     private List<GioHangChiTiet> gioHangChiTiets;
 
-
+    public GioHang(Long tongSanPham, Double tongSoTien, TaiKhoan taiKhoan) {
+        this.tongSanPham = tongSanPham;
+        this.tongSoTien = tongSoTien;
+        this.taiKhoan = taiKhoan;
+    }
 }

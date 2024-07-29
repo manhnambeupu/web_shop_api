@@ -50,7 +50,7 @@ public class LoaiSanPhamController {
                 .build();
     }
 
-    @PostMapping("/{id}") // cap nhat ban ghi loai san pham
+    @DeleteMapping("/{id}") // cap nhat ban ghi loai san pham
     public void update(@RequestBody @Valid LoaiSanPhamDTO loaiSanPhamDTO, @PathVariable Long id){
         loaiSanPhamService.update(loaiSanPhamDTO, id);
     }
