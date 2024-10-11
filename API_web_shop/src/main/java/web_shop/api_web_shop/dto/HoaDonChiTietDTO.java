@@ -9,9 +9,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class HoaDonChiTietDTO {
     private Long id;
-    private Long donGia;
+    private Double donGia;
     private Long soLuong;
-    private Long thanhTien;
+    private Double thanhTien;
 
     private SanPhamChiTietDTO sanPhamChiTiet;
 

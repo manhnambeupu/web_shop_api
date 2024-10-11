@@ -13,9 +13,9 @@ public class HoaDonChiTiet {
     @Id
     @GeneratedValue(strategy = jakarta.persistence.GenerationType.IDENTITY)
     private Long id;
-    private Long donGia;
+    private Double donGia;
     private Long soLuong;
-    private Long thanhTien;
+    private Double thanhTien;
 
     @ManyToOne
     @JoinColumn(name = "san_pham_chi_tiet_id")

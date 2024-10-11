@@ -46,7 +46,7 @@ public class MauSacController {
 
         mauSacService.create(mauSacDTO);
         return ResponseDTO. <Void>builder()
-                .status(200)
+                .status(201)
                 .message("Success create mau sac")
                 .build();
     }
@@ -81,7 +81,7 @@ public class MauSacController {
     public ResponseDTO <Void> delete(@PathVariable Long id){
         mauSacService.delete(id);
         return ResponseDTO. <Void>builder()
-                .status(200)
+                .status(204)
                 .message("Success delete mau sac")
                 .build();
     }

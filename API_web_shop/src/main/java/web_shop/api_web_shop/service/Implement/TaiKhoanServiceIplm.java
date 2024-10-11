@@ -44,7 +44,7 @@ public class TaiKhoanServiceIplm implements TaiKhoanService {
         mapToEnity(enity, taiKhoanDTO);
         //moi tao nen chua co cai nao
         enity.setTongHoaDon(0L);
-        enity.setTongTien(0L);
+        enity.setTongTien(0D);
         enity.setHangTaiKhoan(1);
         enity.setTrangThai(1);
         TaiKhoan tkSave = tkRepository.save(enity);
@@ -73,7 +73,7 @@ public class TaiKhoanServiceIplm implements TaiKhoanService {
         enity.setEmail(dto.getEmail());
         enity.setMatKhau(dto.getMatKhau());
         enity.setHoVaTen(dto.getHoVaTen());
-        enity.setRole(dto.getRole());
+        enity.setRole( dto.getRole());
         enity.setTongHoaDon(dto.getTongHoaDon());
         enity.setTongTien(dto.getTongTien());
         enity.setHangTaiKhoan(dto.getHangTaiKhoan());

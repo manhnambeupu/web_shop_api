@@ -19,6 +19,7 @@ public class KichCoController {
         // Rest API get(che giau duong link tang tinh bao mat), post, put, delete
         @GetMapping // lay du lieu
         public ResponseDTO < List<KichCoDTO> > getAll(){
+            kichCoService.getAll();
             return ResponseDTO. < List<KichCoDTO> >builder() //  dung bbuilder de tao mot doi tuong ResponseDTO co kieu
                                                             //  la mot List<KichCoDTO>
                     .data(kichCoService.getAll())
@@ -34,30 +35,44 @@ public class KichCoController {
              */
         }
 
+    @GetMapping("/{id}") // lay ban ghi kich co theo id
+    public ResponseDTO<KichCoDTO> getById(Long id){
+        return ResponseDTO. <KichCoDTO>builder()
+                .data(kichCoService.getById(id))
+                .status(200)
+                .message("Success")
+                .build();
+    }
+
         @PostMapping // tao ra 1 ban ghi kich co
         // RequestBody: lay du lieu cua nguoi dung gui
         // @Valid: kiem tra xem du lieu co dung dinh dang hay khong
-        public void create(@RequestBody  @Valid KichCoDTO kichCoDTO){
+        public ResponseDTO<Void> create(@RequestBody  @Valid KichCoDTO kichCoDTO){
             kichCoService.create(kichCoDTO);
+            return ResponseDTO. <Void>builder()
+                    .status(201)
+                    .message("Success create size product")
+                    .build();
         }
 
         @PutMapping("/{id}") // cap nhat ban ghi kich co
         //PathVariable: lay du lieu id tu duong link de update tren DB
-        public void update(@PathVariable Long id, @RequestBody KichCoDTO dto){
+        public ResponseDTO <Void> update(@PathVariable Long id, @RequestBody KichCoDTO dto){
             // DB: update kich co = "" where id = "" (phai dinh kem them id)
             kichCoService.update(dto, id);
-        }
-        @GetMapping("/{id}") // lay ban ghi kich co theo id
-        public ResponseDTO<KichCoDTO> getById(Long id){
-            return ResponseDTO. <KichCoDTO>builder()
-                    .data(kichCoService.getById(id))
+            return ResponseDTO. <Void>builder()
                     .status(200)
-                    .message("Success")
+                    .message("Success update size product")
                     .build();
         }
 
+
         @DeleteMapping("/{id}") // xoa ban ghi kich co
-        public void delete(@PathVariable Long id){
+        public ResponseDTO <Void> delete(@PathVariable Long id){
             kichCoService.delete(id);
+            return  ResponseDTO. <Void>builder()
+                    .status(204)
+                    .message("Success delete size product")
+                    .build();
         }
 }

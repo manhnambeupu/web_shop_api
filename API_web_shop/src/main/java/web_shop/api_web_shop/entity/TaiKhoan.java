@@ -21,9 +21,9 @@ public class TaiKhoan {
     private String email;
     private String matKhau;
     private String hoVaTen;
-    private Role role;
+    private String role;
     private Long tongHoaDon;
-    private Long tongTien;
+    private Double tongTien;
     private Integer hangTaiKhoan;
     private Integer trangThai;
 }

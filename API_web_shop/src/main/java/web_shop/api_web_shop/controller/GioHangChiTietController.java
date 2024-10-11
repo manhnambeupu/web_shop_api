@@ -34,28 +34,28 @@ public class GioHangChiTietController {
     }
 
     @PostMapping
-    public ResponseDTO<GioHangChiTietDTO> create(@RequestBody GioHangChiTietDTO dto) {
+    public ResponseDTO<Void> create(@RequestBody GioHangChiTietDTO dto) {
         gioHangChiTietService.create(dto);
-        return ResponseDTO.<GioHangChiTietDTO>builder()
-                .status(200)
+        return ResponseDTO.<Void>builder()
+                .status(201)
                 .message("Success create gio hang chi tiet")
                 .build();
     }
 
     @PutMapping("/{id}")
-    public ResponseDTO<GioHangChiTietDTO> update(@RequestBody GioHangChiTietDTO dto, @PathVariable Long id) {
-        gioHangChiTietService.update(dto, id);
-        return ResponseDTO.<GioHangChiTietDTO>builder()
+    public ResponseDTO<Void> update(@RequestParam Long soLuongSPCT, @PathVariable Long id) {
+        gioHangChiTietService.update(soLuongSPCT, id);
+        return ResponseDTO.<Void>builder()
                 .status(200)
                 .message("Success update gio hang chi tiet")
                 .build();
     }
 
     @DeleteMapping("/{id}")
-    public ResponseDTO<GioHangChiTietDTO> delete(@PathVariable Long id) {
+    public ResponseDTO<Void> delete(@PathVariable Long id) {
         gioHangChiTietService.delete(id);
-        return ResponseDTO.<GioHangChiTietDTO>builder()
-                .status(200)
+        return ResponseDTO.<Void>builder()
+                .status(204)
                 .message("Success delete gio hang chi tiet")
                 .build();
     }

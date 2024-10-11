@@ -34,13 +34,6 @@ public class LoaiSanPhamController {
          */
     }
 
-    @PostMapping // tao ra 1 ban ghi loai san pham
-    // RequestBody: lay du lieu cua nguoi dung gui
-    // @Valid: kiem tra xem du lieu co dung dinh dang hay khong
-    public void create(@RequestBody @Valid LoaiSanPhamDTO loaiSanPhamDTO){
-        loaiSanPhamService.create(loaiSanPhamDTO);
-    }
-
     @GetMapping("/{id}") // lay ban ghi loai san pham theo id
     public ResponseDTO <LoaiSanPhamDTO> getById(@PathVariable Long id){
         return ResponseDTO. <LoaiSanPhamDTO>builder()
@@ -50,14 +43,33 @@ public class LoaiSanPhamController {
                 .build();
     }
 
-    @DeleteMapping("/{id}") // cap nhat ban ghi loai san pham
-    public void update(@RequestBody @Valid LoaiSanPhamDTO loaiSanPhamDTO, @PathVariable Long id){
-        loaiSanPhamService.update(loaiSanPhamDTO, id);
+    @PostMapping // tao ra 1 ban ghi loai san pham
+    // RequestBody: lay du lieu cua nguoi dung gui
+    // @Valid: kiem tra xem du lieu co dung dinh dang hay khong
+    public ResponseDTO<Void> create(@RequestBody @Valid LoaiSanPhamDTO loaiSanPhamDTO){
+        loaiSanPhamService.create(loaiSanPhamDTO);
+        return ResponseDTO. <Void>builder()
+                .status(200)
+                .message("Success create loai san pham")
+                .build();
     }
 
-    @PostMapping("/{id}") // xoa ban ghi loai san pham
-    public void delete(@PathVariable Long id){
+    @PostMapping("/{id}") // cap nhat ban ghi loai san pham
+    public ResponseDTO <Void> update(@RequestBody @Valid LoaiSanPhamDTO loaiSanPhamDTO, @PathVariable Long id){
+        loaiSanPhamService.update(loaiSanPhamDTO, id);
+        return ResponseDTO. <Void>builder()
+                .status(200)
+                .message("Success update loai san pham")
+                .build();
+    }
+
+    @DeleteMapping("/{id}") // xoa ban ghi loai san pham
+    public ResponseDTO <Void> delete(@PathVariable Long id){
         loaiSanPhamService.delete(id);
+        return ResponseDTO. <Void>builder()
+                .status(204)
+                .message("Success delete loai san pham")
+                .build();
     }
 
 

@@ -43,7 +43,7 @@ public class SanPhamController {
         return ResponseDTO.<List <SanPhamDTO> >builder()
                 .data(sanPhamService.search(ten, ma, idLoaiSanPham, page, size))
                 .status(200)
-                .message("Success")
+                .message("Success search")
                 .build();
     }
 
@@ -54,7 +54,7 @@ public class SanPhamController {
         return ResponseDTO.<SanPhamDTO>builder()
                 .data(sanPhamService.getById(id))
                 .status(200)
-                .message("Success")
+                .message("Success Get By Id")
                 .build();
     }
 
@@ -63,8 +63,8 @@ public class SanPhamController {
     public ResponseDTO <Void> create(@ModelAttribute @Valid SanPhamDTO sanPhamDTO) throws IOException {
         sanPhamService.create(sanPhamDTO);
         return ResponseDTO. <Void> builder()
-                .status(200)
-                .message("Success")
+                .status(201)
+                .message("Success Create Product")
                 .build();
     }
 
@@ -84,7 +84,7 @@ public class SanPhamController {
     public ResponseDTO <Void> delete(@PathVariable Long id) {
         sanPhamService.delete(id);
         return ResponseDTO. <Void> builder()
-                .status(200)
+                .status(204)
                 .message("Success delete")
                 .build();
     }

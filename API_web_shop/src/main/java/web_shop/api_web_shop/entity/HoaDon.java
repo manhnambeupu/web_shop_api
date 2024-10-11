@@ -18,7 +18,7 @@ public class HoaDon {
     private  Long id;
     private  String maHoaDon;
     private  Long tongSanPham;
-    private  Long tongSoTien;
+    private  Double tongSoTien;
     private  String soDienThoai;
     private  String diaChi;
     private  String hoVaTen;

@@ -1,10 +1,7 @@
 package web_shop.api_web_shop.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 
 /**
@@ -12,7 +9,8 @@ import lombok.NoArgsConstructor;
  * vi du nhu:  dang ky thanh cong, dang ky that bai, dang nhap thanh cong, dang nhap that bai
  * Vi di: update thanh cong, update that bai ...vv
  */
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder // Tao ra 1 builder de tao doi tuong ResponseDTO
