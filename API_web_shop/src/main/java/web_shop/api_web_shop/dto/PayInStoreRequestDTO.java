@@ -1,15 +1,15 @@
 package web_shop.api_web_shop.dto;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class HoaDonChiTietTaiQuayDTO {
-    private Long hoadonId;
-    private Long sanPhamChiTietId;
-    private Long soLuong;
-
+@Builder
+public class PayInStoreRequestDTO {
+    private Long billId;
+    private String phone;
 }

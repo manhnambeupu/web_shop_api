@@ -11,7 +11,7 @@ import web_shop.api_web_shop.service.TaiKhoanService;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/taikhoan")
+@RequestMapping("/api/user")
 public class TaikhoanController {
 
     private final TaiKhoanService taiKhoanService;
@@ -21,7 +21,7 @@ public class TaikhoanController {
         taiKhoanService.create(dto);
         return ResponseDTO.<TaiKhoanDTO>builder()
                 .status(200)
-                .message("Success create tai khoan")
+                .message("Success create Account")
                 .build();
     }
 }

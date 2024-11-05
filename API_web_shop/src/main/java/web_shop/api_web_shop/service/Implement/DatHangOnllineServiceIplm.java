@@ -7,10 +7,7 @@ import org.springframework.stereotype.Service;
 import web_shop.api_web_shop.dto.HoaDonChiTietDTO;
 import web_shop.api_web_shop.dto.HoaDonDTO;
 import web_shop.api_web_shop.dto.ThongTinHoaDonDTO;
-import web_shop.api_web_shop.entity.GioHang;
-import web_shop.api_web_shop.entity.GioHangChiTiet;
-import web_shop.api_web_shop.entity.HoaDon;
-import web_shop.api_web_shop.entity.HoaDonChiTiet;
+import web_shop.api_web_shop.entity.*;
 import web_shop.api_web_shop.repository.*;
 import web_shop.api_web_shop.service.DatHangOnlineService;
 
@@ -29,6 +26,8 @@ public class DatHangOnllineServiceIplm implements DatHangOnlineService {
     private final GioHangChiTietRepository gioHangChiTietRepository;
     private final HoaDonRepository hoaDonRepository;
     private final HoaDonChiTietRepository hoaDonChiTietRepository;
+    private final SanPhamRepository sanPhamRepository;
+    private final SanPhamChiTietRepository sanPhamChiTietRepository;
 
     @Override
     public ResponseEntity<String> create(HoaDonDTO hoaDonDTO) {
@@ -90,6 +89,17 @@ public class DatHangOnllineServiceIplm implements DatHangOnlineService {
             hoaDonChiTiet.setThanhTien(  gioHangChiTiet.getSoLuong() * gioHangChiTiet.getSanPhamChiTiet().getGia() );
             listHoaDonCT.add(hoaDonChiTiet);
             gioHangRepository.deleteById(gioHangChiTiet.getId());
+
+            SanPhamChiTiet spct = gioHangChiTiet.getSanPhamChiTiet();
+            SanPham sp = spct.getSanPham();
+            spct.setSoLuongTonKho( spct.getSoLuongTonKho() - gioHangChiTiet.getSoLuong());
+            spct.setSoLuongDaBan(spct.getSoLuongDaBan() + gioHangChiTiet.getSoLuong());
+            sp.setSoLuongTonKho(sp.getSoLuongTonKho() - gioHangChiTiet.getSoLuong());
+            sp.setSoLuongDaBan(sp.getSoLuongDaBan() + gioHangChiTiet.getSoLuong());
+
+            sanPhamRepository.save(sp);
+            sanPhamChiTietRepository.save(spct);
+
         }
         hoaDonChiTietRepository.saveAll(listHoaDonCT);
 
@@ -104,6 +114,28 @@ public class DatHangOnllineServiceIplm implements DatHangOnlineService {
            }
            hoaDonRepository.save(hoaDon);
        }
+       else {
+           cancelBill(id);
+       }
+    }
+
+    private void cancelBill(Long id){
+        HoaDon hoaDon = hoaDonRepository.findById(id).orElseThrow(() -> new RuntimeException("Not found bill"));
+        hoaDon.setTrangThai(0);
+        List<HoaDonChiTiet> list = hoaDonChiTietRepository.findByHoaDonId(id).orElse(new ArrayList<>());
+        for(HoaDonChiTiet hdct : list){
+            SanPhamChiTiet spct = hdct.getSanPhamChiTiet();
+            spct.setTrangThai(1); // khi het hang se khoi phu lai du lieu
+            spct.setSoLuongTonKho(hdct.getSoLuong() + spct.getSoLuongTonKho());
+            spct.setSoLuongDaBan(spct.getSoLuongDaBan() - hdct.getSoLuong());
+            SanPham sp = spct.getSanPham();
+            sp.setTrangThai(1);
+            sp.setSoLuongTonKho(sp.getSoLuongTonKho() + hdct.getSoLuong());
+            sp.setSoLuongDaBan(sp.getSoLuongDaBan() - hdct.getSoLuong());
+            hoaDonRepository.save(hoaDon);
+            sanPhamRepository.save(sp);
+            sanPhamChiTietRepository.save(spct);
+        }
     }
 
 }

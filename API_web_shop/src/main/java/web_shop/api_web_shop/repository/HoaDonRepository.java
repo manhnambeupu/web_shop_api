@@ -7,5 +7,7 @@ import java.util.Optional;
 
 public interface HoaDonRepository extends JpaRepository<HoaDon, Long> {
 
+    Optional<HoaDon> findById(Long id);
+
     Optional<HoaDon> findByIdAndTrangThai(Long id, Integer trangThai);
 }

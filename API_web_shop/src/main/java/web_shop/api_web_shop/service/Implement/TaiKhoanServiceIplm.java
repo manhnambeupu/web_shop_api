@@ -46,7 +46,7 @@ public class TaiKhoanServiceIplm implements TaiKhoanService {
         enity.setTongHoaDon(0L);
         enity.setTongTien(0D);
         enity.setHangTaiKhoan(1);
-        enity.setTrangThai(1);
+        enity.setStatus(1);
         TaiKhoan tkSave = tkRepository.save(enity);
         GioHang giohang = new GioHang(0L, 0D, tkSave);
         gioHangRepository.save(giohang);
@@ -71,12 +71,12 @@ public class TaiKhoanServiceIplm implements TaiKhoanService {
         enity.setId(dto.getId());
         enity.setMa(dto.getMa());
         enity.setEmail(dto.getEmail());
-        enity.setMatKhau(dto.getMatKhau());
+        enity.setPassword(dto.getMatKhau());
         enity.setHoVaTen(dto.getHoVaTen());
         enity.setRole( dto.getRole());
         enity.setTongHoaDon(dto.getTongHoaDon());
         enity.setTongTien(dto.getTongTien());
         enity.setHangTaiKhoan(dto.getHangTaiKhoan());
-        enity.setTrangThai(dto.getTrangThai());
+        enity.setStatus(dto.getTrangThai());
     }
 }

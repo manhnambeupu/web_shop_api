@@ -1,5 +1,6 @@
 package web_shop.api_web_shop.controller;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -11,11 +12,13 @@ import java.io.IOException;
 import java.util.List;
 
 @RestController
-@RequestMapping("/sanpham")
+@RequestMapping("/product")
 @RequiredArgsConstructor
 public class SanPhamController {
 
     private final SanPhamService sanPhamService;
+
+    @Tag(name = "Get All", description = "Get All Product ")
     // Rest API get(che giau duong link tang tinh bao mat), post, put, delete
     @GetMapping// lay du lieu
     public ResponseDTO<List<SanPhamDTO>> getAll() {
@@ -33,6 +36,7 @@ public class SanPhamController {
      */
     }
 
+    @Tag(name = "Get With Requirement", description = "Get Requested Product ")
     @GetMapping("/search")// lay du lieu
     public ResponseDTO<List<SanPhamDTO>> search(@RequestParam(value="ten", required = false)  String ten,
                                                 @RequestParam(value="ma", required = false)  String ma,
@@ -48,7 +52,7 @@ public class SanPhamController {
     }
 
 
-
+    @Tag(name = "Get with Id", description = "Get product with requested id")
     @GetMapping("/{id}")// lay du lieu theo id
     public ResponseDTO<SanPhamDTO> getById(@PathVariable Long id) {
         return ResponseDTO.<SanPhamDTO>builder()
@@ -58,6 +62,8 @@ public class SanPhamController {
                 .build();
     }
 
+
+    @Tag(name = "Create Product", description = "Create a product and save it in the database")
     @PostMapping// tao ra 1 ban ghi san pham
     // @ModelAttribute: de co the show du lieu anh o dang json
     public ResponseDTO <Void> create(@ModelAttribute @Valid SanPhamDTO sanPhamDTO) throws IOException {
@@ -68,6 +74,7 @@ public class SanPhamController {
                 .build();
     }
 
+    @Tag(name = "Update product information", description = "Update product information based on that product id")
     @PutMapping("/{id}")// cap nhat ban ghi san pham
     // Frontend gui du lieu o dang form-Data
     // chinh vi vay ta can dung @ModelAttribute de lay du lieu tu form-data
@@ -80,6 +87,7 @@ public class SanPhamController {
                 .build();
     }
 
+    @Tag(name = "Delete product", description = "Delete product based on that product id")
     @DeleteMapping("/{id}")// xoa ban ghi san pham
     public ResponseDTO <Void> delete(@PathVariable Long id) {
         sanPhamService.delete(id);

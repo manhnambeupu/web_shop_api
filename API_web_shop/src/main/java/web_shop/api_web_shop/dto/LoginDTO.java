@@ -7,9 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class HoaDonChiTietTaiQuayDTO {
-    private Long hoadonId;
-    private Long sanPhamChiTietId;
-    private Long soLuong;
-
+public class LoginDTO {
+    private String email;
+    private String password;
 }

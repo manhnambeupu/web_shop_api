@@ -28,6 +28,8 @@ public class SanPhamServiceIplm implements SanPhamService {
     
     private final LoaiSanPhamRepository loaiSanPhamRepository;
 
+    private final CloudinaryServiceIplm cloudinaryService;
+
     @Override
     public List<SanPhamDTO> getAll() {
         return mapToDto(sanPhamRepository.findAll());
@@ -56,28 +58,9 @@ public class SanPhamServiceIplm implements SanPhamService {
             // Kiem tra xem file co ton tai hay khong, neu co thi lay ten file va luu vao List <String> images
             // neu khong thi throw exception
             if (dto.getFiles() != null) {
-
-                //xet tung file trong  List<MultipartFile> files
-                for (MultipartFile multipartFile : dto.getFiles()) {
-                    // lay ten file
-                    String name = multipartFile.getOriginalFilename();
-                    // luu ten file vao List<String> images
-                    images.add(name);
-                    // duong dan toi file
-                    String path = "C:\\Users\\Admin\\Desktop\\web_shop\\src\\main\\resources\\static\\images\\" + name;
-                    // tao file
-                    File folder = new File(path);
-                    // kiem tra xem folder co ton tai hay khong, neu khong thi tao folder
-                    if (!folder.exists()) {
-                        folder.mkdirs();//tao folder
-                    }
-                    // tao file sao cho ten file la name
-                    File file = new File(path + "/" + name);
-                    // luu file cua khach hang da upload vao file vua tao
-                    multipartFile.transferTo(file);
-                }
+                images = processFilesSaveToCloud(dto.getFiles());
             } else {
-                throw new RuntimeException("File is null");
+                throw new RuntimeException("Choose your File pls ");
             }
 
             SanPham sanPham = new SanPham(); // chuyen SanPhamDTO sang dang SanPham() de luu vao database
@@ -93,38 +76,19 @@ public class SanPhamServiceIplm implements SanPhamService {
             SanPham sanPham = sanPhamRepository.findById(id)
                     .orElseThrow(() -> new RuntimeException("Not found san pham id" + id));
 
-            List<String> images = new ArrayList<>();
-
+            List<String> images ;
             // LUU File ANH VAO DATA BASE
             // Kiem tra xem file co ton tai hay khong, neu co thi lay ten file va luu vao List <String> images
             // neu khong thi throw exception
             if (sanPhamDTO.getFiles() != null) {
 
                 //xet tung file trong  List<MultipartFile> files
-                for (MultipartFile multipartFile : sanPhamDTO.getFiles()) {
-                    // lay ten file
-                    String name = multipartFile.getOriginalFilename();
-                    // luu ten file vao List<String> images
-                    images.add(name);
-                    // duong dan toi file
-                    String path = "C:\\Users\\Admin\\Desktop\\web_shop\\src\\main\\resources\\static\\images\\" + name;
-                    // tao file
-                    File folder = new File(path);
-                    // kiem tra xem folder co ton tai hay khong, neu khong thi tao folder
-                    if (!folder.exists()) {
-                        folder.mkdirs();//tao folder
-                    }
-                    // tao file sao cho ten file la name
-                    File file = new File(path + "/" + name);
-                    // luu file cua khach hang da upload vao file vua tao
-                    multipartFile.transferTo(file);
-                }
+                images = processFiles(sanPhamDTO.getFiles());
                 sanPham.setImages(images);
             }
             mapToEntitySave(sanPham, sanPhamDTO);
             sanPham.setTrangThai(sanPhamDTO.getTrangThai());
             sanPhamRepository.save(sanPham);
-
         }
 
         @Override
@@ -154,6 +118,46 @@ public class SanPhamServiceIplm implements SanPhamService {
         //cach 2 dung model mapper
         return new ModelMapper().map(dto, SanPham.class);
          */
+        }
+
+        private List<String> processFiles(List<MultipartFile> files)throws IOException{
+            List<String> images = new ArrayList<>();
+            for (MultipartFile multipartFile : files) {
+                // lay ten file
+                String name = multipartFile.getOriginalFilename();
+                // luu ten file vao List<String> images
+                images.add(name);
+                // duong dan toi file
+                String path = "C:\\Users\\Admin\\Desktop\\web_shop\\src\\main\\resources\\static\\images\\" + name;
+                // tao file
+                File folder = new File(path);
+                // kiem tra xem folder co ton tai hay khong, neu khong thi tao folder
+                if (!folder.exists()) {
+                    folder.mkdirs();//tao folder
+                }
+                // tao file sao cho ten file la name
+                File file = new File(path + "/" + name);
+                // luu file cua khach hang da upload vao file vua tao
+                multipartFile.transferTo(file);
+            }
+            return images;
+        }
+
+        private List<String> processFilesSaveToCloud(List<MultipartFile> files){
+            List<String> result = new ArrayList<>();
+            for(MultipartFile multipartFile : files){
+                try{
+                    String url = cloudinaryService.uploadFile(multipartFile,"images");
+                    if(url == null){
+                        throw new RuntimeException("Could not upload");
+                    }
+                    result.add(url);
+                }catch (Exception e){
+                    e.printStackTrace();
+                    return null;
+                }
+            }
+            return result;
         }
 
         /**
